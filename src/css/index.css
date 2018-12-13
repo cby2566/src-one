@@ -1,0 +1,77 @@
+#box #main {
+  margin: 10px auto;
+  width: 600px;
+  height: 600px;
+  background: #F2F2F2;
+  padding: 48px 77px;
+  box-sizing: border-box; }
+  #box #main .title {
+    margin: 0 auto;
+    width: 325px;
+    margin-bottom: 40px; }
+    #box #main .title img {
+      float: left;
+      margin-right: 30px; }
+    #box #main .title h1 {
+      height: 60px;
+      line-height: 60px;
+      font-size: 28px;
+      float: left; }
+  #box #main .import {
+    width: 447px;
+    height: 51px;
+    border: 1px solid #e6e4e4;
+    background: #fff;
+    position: relative; }
+    #box #main .import img {
+      width: 21px;
+      height: 21px;
+      position: absolute;
+      top: 15px;
+      left: 19px; }
+    #box #main .import input {
+      position: absolute;
+      width: 391px;
+      height: 33px;
+      left: 55px;
+      top: 10px;
+      font-size: 16px; }
+      #box #main .import input::placeholder {
+        color: #e6e4e4; }
+  #box #main .err {
+    height: 30px;
+    line-height: 30px; }
+  #box #main .codenumerr {
+    margin-top: 1px; }
+  #box #main .codenum {
+    width: 273px;
+    height: 51px;
+    float: left;
+    margin-right: 13px; }
+    #box #main .codenum input {
+      width: 210px; }
+  #box #main .aboutcode a {
+    float: right;
+    color: #009688; }
+  #box #main .aboutcode .remcode {
+    float: left;
+    line-height: 32px;
+    position: relative;
+    width: 100px;
+    height: 21px; }
+    #box #main .aboutcode .remcode #checkbox {
+      position: absolute;
+      top: 3px;
+      width: 21px;
+      height: 21px;
+      border: 1px solid #808080;
+      display: inline-block;
+      background: #fff;
+      border-radius: 2px;
+      cursor: pointer; }
+    #box #main .aboutcode .remcode .remme {
+      position: absolute;
+      top: 2px;
+      left: 25px; }
+
+/*# sourceMappingURL=index.css.map */
