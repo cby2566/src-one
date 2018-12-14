@@ -41,9 +41,9 @@ layui.define(['layer', 'form','element','table'], function(exports){
 
   table.render({
     elem: '#test'
-    ,url:'http://10.3.141.224:3007/api'
+    //,url:'http://10.3.141.224:3007/api'
+    ,url:'/list'
     //,page:{curr:2}
-
     ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
     ,cols: [[
       {field:'id', title: 'ID', sort: true}
