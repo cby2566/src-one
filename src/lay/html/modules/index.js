@@ -36,6 +36,14 @@ layui.define(['layer', 'form','element','table'], function(exports){
   element.on('nav(do)', function(elem){
     layer.msg('面包屑');
   });
+
+  //表格勾选
+ form.on('checkbox()', function(data){
+  console.log(data.elem.parentNode.parentNode); //得到checkbox原始DOM对象
+  //console.log(data.elem.checked); //是否被选中，true或者false
+  //console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+  //console.log(data.othis); //得到美化后的DOM对象
+}); 
   
 
 
