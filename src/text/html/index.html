@@ -30,7 +30,7 @@
           <li class="layui-nav-item">
             <a href="javascript:;" id='text'>
               <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-              贤心
+              晶晶
             </a>
             <dl class="layui-nav-child">
               <dd><a href="">基本资料</a></dd>
@@ -46,24 +46,26 @@
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree"  lay-filter="test">
         <li class="layui-nav-item layui-nav-itemed">
-          <a class="" href="javascript:;">所有商品</a>
+          <a class="" href="javascript:;">商品管理</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="javascript:;">列表三</a></dd>
-            <dd><a href="">超链接</a></dd>
+            <dd><a href="javascript:;">商品列表</a></dd>
+            <dd><a href="javascript:;">商品分类</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
-          <a href="javascript:;">解决方案</a>
+          <a href="javascript:;">用户管理</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">列表一</a></dd>
-            <dd><a href="javascript:;">列表二</a></dd>
-            <dd><a href="">超链接</a></dd>
+            <dd><a href="javascript:;">用户列表</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item"><a href="">云市场</a></li>
-        <li class="layui-nav-item"><a href="">发布商品</a></li>
+        <li class="layui-nav-item"><a href="javascript:;">订单管理</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;">订单列表</a></dd>
+                <dd><a href="javascript:;">列表二</a></dd>
+                <dd><a href="">超链接</a></dd>
+            </dl>
+        </li>
+        
       </ul>
     </div>
   </div>
@@ -72,46 +74,55 @@
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">内容主体区域
         <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #1E9FFF;"></i>  
-         
+        
+        <form action="" class="layui-form">
         <table class="layui-table">
           <colgroup>
-            <col width="150">
-            <col width="200">
+            <col >
+            <col >
             <col>
           </colgroup>
           <thead>
             <tr>
-              <th>商品名称</th>
-              <th>商品价格</th>
-              <th>商品数量</th>
-              <th>添加</th>
-              <th>店铺</th>
+                <th><input type="checkbox" name="like1[all]" lay-skin="primary" title=""></th>
+                <th>ID</th>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>商品数量</th>
+                <th>商品分类</th>
+                <th>操作</th>
+                
             </tr> 
           </thead>
           <tbody>
             <tr>
-              <td>面包</td>
-              <td>2008</td>
-              <td>999</td>
-              <td><button class="layui-btn">
-                <i class="layui-icon">&#xe608;</i> 添加
-            </button></td>
+                <td><input type="checkbox" name="like1[itme]" lay-skin="primary" title=""></td>
+                <td>1</td>
+                <td>面包</td>
+                <td>2008</td>
+                <td>999</td>
+                <td>食品</td>
+                <td>
+                <button class="layui-btn" type="button"><i class="layui-icon"></i></button>
+                <button class="layui-btn layui-btn-warm" type="button"><i class="layui-icon">&#xe640;</i></button>
+                </td>
             </tr>
             <tr>
-              <td>可乐</td>
-              <td>19</td>
-              <td>888</td>
-              <td><button class="layui-btn">
-                <i class="layui-icon">&#xe608;</i> 添加
-            </button></td>
-            <td>
-                <button class="layui-btn layui-btn-sm layui-btn-primary">
-                <i class="layui-icon">&#xe642;</i>
-                </button>
-            </td>
+                <td><input type="checkbox" name="like1[itme]" lay-skin="primary" title=""></td>
+                <td>1</td>
+                <td>面包</td>
+                <td>2008</td>
+                <td>999</td>
+                <td>食品</td>
+                <td>
+                <button class="layui-btn" type="button"><i class="layui-icon"></i></button>
+                <button class="layui-btn layui-btn-warm" type="button"><i class="layui-icon">&#xe640;</i></button>
+                </td>
             </tr>
           </tbody>
         </table>
+        </form>
+        <table class="layui-hide" id="test"></table>
     </div>
   </div>
   
