@@ -15,10 +15,14 @@ layui.define(['layer', 'form','element','table'], function(exports){
   element.render('nav'); 
   
   element.on('nav()', function(elem){
-    
-    layer.msg(elem.text());
+    console.log(this.dataset.id)
+    //layer.msg(elem.text());
   });
 
+  element.on('nav(test)', function(elem){
+    
+    layer.msg('商品管理123');
+  });
   element.on('nav(do)', function(elem){
     layer.msg('面包屑');
   });
