@@ -1,0 +1,96 @@
+#box{
+    #main{
+        margin: 10px auto;
+        width: 600px;
+        height: 600px;
+        background: #F2F2F2;
+        padding: 48px 77px;
+        box-sizing: border-box;
+        .title{
+            margin: 0 auto;
+            width: 325px;
+            margin-bottom: 40px;
+            img{
+                float: left;
+                margin-right: 30px;
+            }
+            h1{
+                height: 60px;
+                line-height: 60px;
+                font-size: 28px;
+                float: left;
+            }
+        }
+        .import{
+            width: 447px;
+            height: 51px;
+            border: 1px solid rgb(230, 228, 228);
+            background: #fff;
+            position: relative;
+            img{
+                width: 21px;
+                height: 21px;
+                position: absolute;
+                top: 15px;
+                left: 19px;
+            }
+            input{
+                position: absolute;
+                width: 391px;
+                height: 33px;
+                left: 55px;
+                top: 10px;
+                font-size: 16px;
+                &::placeholder{
+                    color: rgb(230, 228, 228);
+                }
+            }
+        }
+        .err{
+            height: 30px;
+            line-height: 30px;
+        }
+        .codenumerr{
+            margin-top: 1px;
+        }
+        .codenum{
+            width: 273px;
+            height: 51px;
+            float: left;
+            margin-right: 13px; 
+            input{
+                width: 210px;
+            }
+        }
+        .aboutcode{
+            a{
+                float: right;
+                color: #009688;
+            }
+            .remcode{
+                float: left;
+                line-height: 32px;
+                position: relative;
+                width: 100px;
+                height: 21px;
+                #checkbox{
+                    position: absolute;
+                    top: 3px;
+                    width: 21px;
+                    height: 21px;
+                    border: 1px solid #808080;
+                    display: inline-block;
+                    background: #fff;
+                    border-radius: 2px;
+                    cursor: pointer;
+                }
+                .remme{
+                    position: absolute;
+                    top: 2px;
+                    left: 25px;
+                }
+            }
+            
+        }
+    }
+}
