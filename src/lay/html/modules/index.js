@@ -17,6 +17,20 @@ layui.define(['layer', 'form','element','table'], function(exports){
   element.on('nav()', function(elem){
     
     layer.msg(elem.text());
+
+    //测试路由
+    if(this.dataset.id==1){
+      var xhr=new XMLHttpRequest();
+      xhr.open('get','/list');
+      xhr.send();
+      xhr.onreadystatechange=function(){
+        if(xhr.readyState==4){
+          console.log(xhr.responseText);
+        }
+        
+             
+      }
+    }
   });
 
   element.on('nav(do)', function(elem){
