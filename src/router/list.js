@@ -50,7 +50,7 @@ Router.get('/', async(req, res) => {
         "score": 31
     }]
     };
-    console.log(dat2)
+    //console.log(dat2)
          
     res.send(dat2);
 });

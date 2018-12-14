@@ -2,9 +2,9 @@
   项目JS主入口
   以依赖layui的layer和form模块为例
 **/    
-layui.define(['layer', 'form','element','table'], function(exports){
+layui.define(['layer', 'form','element','table','laydate'], function(exports){
   var layer = layui.layer
-  ,form = layui.form,dome=layui.dome,element = layui.element,table=layui.table;
+  ,form = layui.form,dome=layui.dome,element = layui.element,table=layui.table,laydate=layui.laydate;
 
 
   
@@ -26,13 +26,80 @@ layui.define(['layer', 'form','element','table'], function(exports){
       xhr.onreadystatechange=function(){
         if(xhr.readyState==4){
           console.log(xhr.responseText);
-        }
-        
-             
+        } 
       }
     }
+	
+	
   });
+//测试弹出框
 
+let ht=`
+<form class="layui-form" action="">
+	<div class="layui-form-item">
+		<label class="layui-form-label">用户名</label>
+		<div class="layui-input-block">
+			<input type="text" name="title" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+		</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">密码框</label>
+    <div class="layui-input-inline">
+      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">重复密码</label>
+    <div class="layui-input-inline">
+      <input type="password" name="password" required lay-verify="required" placeholder="请再次输入密码" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+  </div>
+  
+  <div class="layui-form-item">
+		<label class="layui-form-label">手机号码</label>
+		<div class="layui-input-inline">
+			<input type="text" name="title" required  lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+		</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">性别</label>
+    <div class="layui-input-inline">
+      <select name="city" lay-verify="required">
+        <option value=""></option>
+        <option value="0">男</option>
+        <option value="1">女</option>
+
+      </select>
+    </div>
+  </div>
+  
+	<div class="layui-form-item"> <!-- 注意：这一层元素并不是必须的 -->
+		<label class="layui-form-label">日期</label>
+	  <input type="text" class="layui-input layui-input-inline" id="test1" placeholder="请输入手机号码">
+	</div>
+
+</form>
+`;
+
+  layer.open({
+	  title: '添加商品'
+	  ,content: ht
+	  ,offset: '100px'
+	  ,skin: 'demo-class'
+	  ,area:['800px', '800px']
+	}); 
+  form.render();
+  
+  
+  laydate.render({
+    elem: '#test1' //指定元素
+  });
+  
   element.on('nav(do)', function(elem){
     layer.msg('面包屑');
   });
