@@ -65,26 +65,39 @@
         let username = document.querySelector('#username');
         let password = document.querySelector('#password');
         let codenumerr = document.querySelector('.codenumerr');
-        
+        let usererr=document.querySelectorAll('.usererr');
         $(".layui-btn").click(function () {
-            let _username = username.value;
-            let _password = password.value;
+
             var IsBy = $.idcode.validateCode();//布尔值
-            let status=[200,304];
-            if(IsBy){
-                codenumerr.children[0].innerHTML='';
-                let xhr=new XMLHttpRequest();
-                xhr.onload=()=>{
-                    if(status.includes(xhr.status)){
-                        console.log(xhr.responseText);
+            let status = [200, 304];
+            if (IsBy) {
+                let _username = username.value;
+                let _password = password.value;
+                codenumerr.children[0].innerHTML = '';
+                let xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                    if (status.includes(xhr.status)) {
+                        let res = JSON.parse(xhr.responseText);
+                        if (res.status === 1) {
+                            console.log(res)
+                            if (res.data.length > 0) {
+                                location.href = 'html/center.html';
+                            } else {
+                                for(var i=0;i<usererr.length;i++){
+                                    console.log('xx')
+                                    usererr[i].children[0].innerHTML = '用户名或密码错误';
+                                    usererr[i].children[0].style.color = 'red';
+                                }
+                            }
+                        }
                     }
                 }
-                xhr.open('post','/login',true)
-                xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                xhr.open('post', '/login', true)
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.send(`username=${_username}&password=${_password}`);
-            }else{
-                codenumerr.children[0].innerHTML='验证码错误'
-                codenumerr.children[0].style.color='red';
+            } else {
+                codenumerr.children[0].innerHTML = '验证码错误'
+                codenumerr.children[0].style.color = 'red';
             }
         });
     })
