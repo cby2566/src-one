@@ -31,17 +31,43 @@ Router.get('/classify', async(req, res) => {
     }
     res.send(data2);
 });
+Router.delete('/',async (req, res) => {
+    let id=req.query.id
+    let value=req.query.value
+    let sql;
+    switch(id){
+        case 'SID':
+        sql= `DELETE from ulist where SID='${value}'`;
+        break;
+        case 'qid':
+        sql= `DELETE from classify where qid='${value}'`;
+        break;
+        case 'fid':
+        sql= `DELETE from f_user where fid='${value}'`;
+        break;
+    }
+    let data = await _sql.query(sql);
+    res.send(data);
+})
 
-Router.route('/:id')
-    //获取商品信息
-    .get(async(req, res) => {
-        let sql = `SELECT * FROM ulist WHERE SID=${req.params.id}`;
-        let data = await _sql.query(sql);
-        res.send(data);
-    })
-    //修改商品信息
-    .post((req, res) => {
+// Router.route('/:id')
+//     //获取商品信息
+//     .get(async(req, res) => {
+//         let sql = `SELECT * FROM ulist WHERE SID=${req.params.id}`;
+//         let data = await _sql.query(sql);
+//         res.send(data);
+//     })
+//     //修改商品信息
+//     // .delete((req, res) => {
+//     //     console.log(res.query)
+//     // })
 
-    })
+Router.get('/insert',async (res,req)=>{
+    let {STAG,SNAME,SCON,PRICE,DIAN,REPE}=res.query;
+    console.log(STAG,SNAME,SCON,PRICE,DIAN,REPE)
+    let sql=`INSERT into ulist (STAG,SNAME,SCON,PRICE,DIAN,REPE) VALUES ('${STAG}','${SNAME}','${SCON}','${PRICE}','${DIAN}',${REPE})`;
+    let data = await _sql.query(sql);
+    req.send(data);
+})
 
 module.exports = Router;
