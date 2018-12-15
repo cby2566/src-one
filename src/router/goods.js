@@ -3,9 +3,18 @@ const _sql = require('./sql');
 let Router = express.Router();
 
 Router.get('/', async(req, res) => {
+    // res.set({'Content-Type':'application/json;charset=UTF-8'});
     let sql = `SELECT * FROM ulist`;
+    let sql2=`SELECT COUNT(*) AS'i' FROM ulist`
     let data = await _sql.query(sql);
-    res.send(data);
+    let data1 = await _sql.query(sql2);
+    let data2={
+        "code": 0,
+        "msg": "",
+        "count": data1.data.i,
+        "data":data.data
+    }
+    res.send(data2);
 });
 
 Router.route('/:id')
