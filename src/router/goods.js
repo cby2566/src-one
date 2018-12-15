@@ -17,6 +17,21 @@ Router.get('/', async(req, res) => {
     res.send(data2);
 });
 
+Router.get('/classify', async(req, res) => {
+    // res.set({'Content-Type':'application/json;charset=UTF-8'});
+    let sql = `SELECT * FROM classify`;
+    let sql2=`SELECT COUNT(*) AS'i' FROM classify`
+    let data = await _sql.query(sql);
+    let data1 = await _sql.query(sql2);
+    let data2={
+        "code": 0,
+        "msg": "",
+        "count": data1.data.i,
+        "data":data.data
+    }
+    res.send(data2);
+});
+
 Router.route('/:id')
     //获取商品信息
     .get(async(req, res) => {
