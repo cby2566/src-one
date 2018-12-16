@@ -1,4 +1,4 @@
-layui.define(['table','element'],function(exports){
+layui.define(['table','element','form'],function(exports){
     //商品列表渲染
     let element = layui.element
     element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
@@ -18,7 +18,7 @@ layui.define(['table','element'],function(exports){
     }
     if(this.dataset.id==2){
       layui.use('table', function(){
-        // var table = layui.table;
+        var table = layui.table;
         
         table.render({
           elem: '#test'
@@ -170,7 +170,7 @@ layui.define(['table','element'],function(exports){
   });
 
 
-  function tableRender(table){
+  function tableRender(table,form){
     //表格渲染
     let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
     let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
@@ -384,7 +384,7 @@ form.on('switch(shang)', function(data){
       let scon=layero[0].querySelector('.SCON').value;
       let sname=layero[0].querySelector('.SNAME').value;
       let stag=layero[0].querySelector('.STAG').value;
-      let dian=1;//分类
+      let dian=1;//shang
       let repe=Number(layero[0].querySelector('.REPE').value);//库存
       let price=layero[0].querySelector('.PRICE').value;
 
