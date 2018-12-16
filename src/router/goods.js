@@ -32,8 +32,8 @@ Router.get('/classify', async(req, res) => {
     res.send(data2);
 });
 Router.delete('/',async (req, res) => {
-    let id=req.query.id
-    let value=req.query.value
+    let id=req.query.id;
+    let value=req.query.value;
     let sql;
     switch(id){
         case 'SID':
@@ -46,6 +46,28 @@ Router.delete('/',async (req, res) => {
         sql= `DELETE from f_user where fid='${value}'`;
         break;
     }
+    let data = await _sql.query(sql);
+    res.send(data);
+})
+
+Router.get('/updown',async(req,res)=>{
+    let id=req.query.id;
+    let type=req.query.type;
+    let sql;
+    switch(type){
+        case 'up':
+        sql= `UPDATE ulist SET DIAN = 1 WHERE SID = ${id}`;
+        break;
+        case 'down':
+        sql=`UPDATE ulist SET DIAN = 2 WHERE SID = ${id}`;
+        break;
+    }
+    // if(type=='up'){
+    //     console.log(123)
+    //     sql= `UPDATE ulist SET DIAN = 1 WHERE SID = ${id}`;
+    // }else if(type=='down'){
+    //     sql=`UPDATE ulist SET DIAN = 2 WHERE SID = ${id}`;
+    // }
     let data = await _sql.query(sql);
     res.send(data);
 })
