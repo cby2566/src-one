@@ -3,13 +3,17 @@ layui.define(['table','element'],function(exports){
     let element = layui.element
     element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
     element.render('nav');
+	//渲染表格封装方法
     var table = layui.table;
-    tableRender(table)
+    var form = layui.form;
+    tableRender(table,form);
     element.on('nav()', function(elem){
     //得到teble对象
     if(this.dataset.id==1){
-      
-    tableRender(table)
+		//渲染表格封装方法
+    var table = layui.table;
+    var form = layui.form;
+    tableRender(table,form);
 
     }
     if(this.dataset.id==2){
@@ -186,6 +190,7 @@ layui.define(['table','element'],function(exports){
             <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
             <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
             <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+			<button class="layui-btn layui-btn-sm" lay-event="add_item">添加商品</button>
           </div>`;
   
     let clo={elem: '#test',
@@ -261,5 +266,145 @@ layui.define(['table','element'],function(exports){
           layer.alert('编辑行：<br>'+ JSON.stringify(data))
         }
       });
+	  
+	//监听表头事件
+    table.on('toolbar()', function(obj){
+      var checkStatus = table.checkStatus(obj.config.id);
+      console.log(obj.event)
+      if(obj.event=='add_item'){
+          add_pop(layer,form);
+      }
+    });
   }
+  
+function add_pop(layer,form){
+  //测试弹出框
+
+let ht=`
+<form class="layui-form" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label ">商品名</label>
+    <div class="layui-input-inline">
+      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input SNAME">
+    </div>
+    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label ">副标题</label>
+    <div class="layui-input-inline">
+      <input type="text" name="title2" required lay-verify="required" placeholder="请输入副标题" autocomplete="off" class="layui-input STAG">
+    </div>
+    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label ">商品价格</label>
+    <div class="layui-input-inline">
+      <input type="text" name="password" required lay-verify="required" placeholder="请再次商品价格" autocomplete="off" class="layui-input PRICE">
+    </div>
+    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">商品库存</label>
+    <div class="layui-input-inline">
+      <input type="text" name="title" required  lay-verify="required" placeholder="请输入剩余数量" autocomplete="off" class="layui-input REPE">
+    </div>
+  </div>
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label">商品分类</label>
+    <div class="layui-input-inline">
+      <select name="city" lay-verify="required">
+        <option value=""></option>
+        <option value="0">食品</option>
+        <option value="1">鱼</option>
+
+      </select>
+    </div>
+  </div>
+  
+  <div class="layui-form-item"> <!-- 注意：这一层元素并不是必须的 -->
+    <label class="layui-form-label">日期</label>
+    <input type="text" class="layui-input layui-input-inline" id="test1" placeholder="上架日期">
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">上架</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="switch" lay-skin="switch" lay-filter="shang">
+    </div>
+  </div>
+
+    <div class="layui-form-item">
+    <label class="layui-form-label">商品描述</label>
+    <div class="layui-input-block">
+      <textarea name="desc" placeholder="请输入内容" class="layui-textarea SCON"></textarea>
+    </div>
+  </div>
+
+
+<button type="button" class="layui-btn" id="test2">
+  <i class="layui-icon">&#xe67c;</i>上传图片
+</button>
+
+<script>
+layui.use('upload', function(){
+  var upload = layui.upload;
+   
+  //执行实例
+  var uploadInst = upload.render({
+    elem: '#test2' //绑定元素
+  });
+});
+</script>
+
+
+</form>
+`;
+
+//下架操作
+form.on('switch(shang)', function(data){
+  //console.log(data.elem); //得到checkbox原始DOM对象
+  console.log(data.elem.checked); //开关是否开启，true或者false
+  //console.log(data.value); //开关value值，也可以通过data.elem.value得到
+  //console.log(data.othis); //得到美化后的DOM对象
+}); 
+
+  layer.open({
+    title: '添加商品'
+    ,content: ht
+    //,offset: '100px'
+    ,skin: 'demo-class'
+    ,area:['800px', 'auto']
+    ,yes:function(index, layero){
+
+      //console.log(layero[0].querySelector('.SCON').value);
+      let scon=layero[0].querySelector('.SCON').value;
+      let sname=layero[0].querySelector('.SNAME').value;
+      let stag=layero[0].querySelector('.STAG').value;
+      let dian=1;//分类
+      let repe=Number(layero[0].querySelector('.REPE').value);//库存
+      let price=layero[0].querySelector('.PRICE').value;
+
+      console.log(scon,sname,stag,dian,repe,price);
+           
+      var status = [200,304];
+      var xhr =new XMLHttpRequest();
+            xhr.open('get',`/goods/insert?SCON=${scon}&SNAME=${sname}&STAG=${stag}&DIAN=${dian}&REPE=${repe}&PRICE=${price}`,true);
+            xhr.send();
+            xhr.onload=()=>{
+              if(status.includes(xhr.status)){
+                console.log(JSON.parse(xhr.responseText).status);
+
+              }
+            }
+
+      layer.close(index);
+    }
+
+  });
+form.render();//刷新表单样式-全部
+}
   
