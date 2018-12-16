@@ -1,19 +1,20 @@
 layui.define(['table','element'],function(exports){
     //商品列表渲染
-    element = layui.element
+    let element = layui.element
     element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
     element.render('nav');
+    var table = layui.table;
+    tableRender(table)
     element.on('nav()', function(elem){
     //得到teble对象
     if(this.dataset.id==1){
-    var table = layui.table;
       
     tableRender(table)
 
     }
     if(this.dataset.id==2){
       layui.use('table', function(){
-        var table = layui.table;
+        // var table = layui.table;
         
         table.render({
           elem: '#test'
@@ -193,10 +194,31 @@ layui.define(['table','element'],function(exports){
             title: '商品列表',
             cols:arr4,
             page: {curr:1},
-            limit: 10};
+            limit: 10,
+            done: function(){
+              var updown=document.querySelectorAll('.updown');
+
+              for(var i=0;i<updown.length;i++){
+                let ok=updown[i].parentNode.parentNode.parentNode.children[7]
+                if(ok){
+                  let status=ok.innerText;
+                  if(status==1){
+                    updown[i].innerText='上架';
+                    updown[i].classList.add('layui-btn-warm');
+                  }
+                }
+              }
+            }
+          };
     console.log(clo);
-         
+    
     table.render(clo);
+    // var updown=document.querySelectorAll('.updown');
+    // console.log(updown)
+    // for(var i=0;i<updown.length;i++){
+    //   var status=updown[i].parentNode.parentNode.parentNode.children[7].children.innerText;
+    //   console.log(status);
+    // }
     table.on('tool()', function(obj){
         var data = obj.data;
         if(obj.event === 'up'){
@@ -205,6 +227,15 @@ layui.define(['table','element'],function(exports){
           if(this.classList.contains('layui-btn-warm')){
             this.innerText='下架';
             this.classList.remove('layui-btn-warm')
+            var xhr =new XMLHttpRequest();
+            xhr.open('delete',`/goods?id=${id}&value=${value}`,true);
+            // xhr.send();
+            // xhr.onload=()=>{
+            //   if(status.includes(xhr.status)){
+            //     console.log(JSON.parse(xhr.responseText).status)
+                
+            //   }
+            // }
           }else{
             this.innerText='上架';
             this.classList.add('layui-btn-warm')

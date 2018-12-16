@@ -4,7 +4,7 @@ let Router = express.Router();
 
 Router.get('/', async(req, res) => {
     // res.set({'Content-Type':'application/json;charset=UTF-8'});
-    let sql = `SELECT * FROM ulist`;
+    let sql = `SELECT * FROM ulist order by sid`;
     let sql2=`SELECT COUNT(*) AS'i' FROM ulist`
     let data = await _sql.query(sql);
     let data1 = await _sql.query(sql2);
