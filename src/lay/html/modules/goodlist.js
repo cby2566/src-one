@@ -229,21 +229,40 @@ layui.define(['table','element','form'],function(exports){
         if(obj.event === 'up'){
           // layer.msg('ID：'+ data.id + ' 的查看操作');
           console.log(this)
+          let statusText=this.parentNode.parentNode.parentNode.children[7];
+          var status = [200,304];
+          var uid=Object.values(data)[0];
+          console.log(uid)
           if(this.classList.contains('layui-btn-warm')){
             this.innerText='下架';
-            this.classList.remove('layui-btn-warm')
+            this.classList.remove('layui-btn-warm');
+            
             var xhr =new XMLHttpRequest();
-            xhr.open('delete',`/goods?id=${id}&value=${value}`,true);
-            // xhr.send();
-            // xhr.onload=()=>{
-            //   if(status.includes(xhr.status)){
-            //     console.log(JSON.parse(xhr.responseText).status)
-                
-            //   }
-            // }
+            xhr.open('get',`/goods/updown?type=down&id=${uid}`,true);
+            xhr.send();
+            xhr.onload=()=>{
+              if(status.includes(xhr.status)){
+                let res=JSON.parse(xhr.responseText)
+                console.log(res)
+                if(res.status==1){
+                  statusText.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;2';
+                }
+               }
+            }
           }else{
             this.innerText='上架';
             this.classList.add('layui-btn-warm')
+            var xhr =new XMLHttpRequest();
+            xhr.open('get',`/goods/updown?type=up&id=${uid}`,true);
+            xhr.send();
+            xhr.onload=()=>{
+              if(status.includes(xhr.status)){
+                let res=JSON.parse(xhr.responseText)
+                if(res.status==1){
+                  statusText.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;1';
+                }
+               }
+            }
           }
         } else if(obj.event === 'del'){
           layer.confirm('真的删除行么', function(index){
