@@ -1,9 +1,9 @@
 const mysql=require('mysql');
 
 var pool  = mysql.createPool({
-    host     : 'localhost',
+    host     : '10.3.141.101',
     user     : 'root',
-    password : 'root',
+    password : 'abc',
     port: 3306,
     database: 'ugoshop'
 });
