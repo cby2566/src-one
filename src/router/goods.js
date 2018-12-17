@@ -1,6 +1,7 @@
 const express = require('express');
 const _sql = require('./sql');
-
+const multer=require('multer');
+const path =require('path');
 let Router = express.Router();
 //商品列表渲染
 Router.get('/', async(req, res) => {
@@ -94,6 +95,29 @@ Router.get('/update',async (res,req)=>{
     console.log(sql);
     let data = await _sql.query(sql);
     req.send(data);
+});
+//添加商品图片
+var storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: function (req, file, cb) {
+        // console.log('file:',file)
+        let ext = path.extname(file.originalname);
+      cb(null, file.fieldname + '-' + Date.now()+ext);
+    }
+})
+    
+let upload=multer({storage});
+
+Router.post('/upload',upload.single('imgupload'), (req,res)=>{
+    // 通过req.file获取到上传文件的内容
+    console.log(path.normalize(req.file.path),req.body);//req.body获取imgid
+    // 存储到数据库
+    
+    res.send({
+        code:1,
+        msg:'文件上传成功',
+        data:req.file
+    })
 });
 
 module.exports = Router;
