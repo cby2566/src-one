@@ -6,14 +6,16 @@ let Router = express.Router();
 //商品列表渲染
 Router.get('/', async(req, res) => {
     // res.set({'Content-Type':'application/json;charset=UTF-8'});
-    let sql = `SELECT * FROM ulist order by sid`;
+    let {page,limit} = req.query;
+    console.log(page,limit)
+    let sql = `select * from ulist ORDER BY SID LIMIT ${(page-1)*10},${limit}`;
     let sql2=`SELECT COUNT(*) AS'i' FROM ulist`
     let data = await _sql.query(sql);
     let data1 = await _sql.query(sql2);
     let data2={
         "code": 0,
         "msg": "",
-        "count": data1.data.i,
+        "count": data1.data[0].i,
         "data":data.data
     }
     res.send(data2);
@@ -22,14 +24,15 @@ Router.get('/', async(req, res) => {
 //商品分类渲染
 Router.get('/classify', async(req, res) => {
     // res.set({'Content-Type':'application/json;charset=UTF-8'});
-    let sql = `SELECT * FROM classify`;
+    let {page,limit} = req.query;
+    let sql = `SELECT * FROM classify LIMIT ${(page-1)*10},${limit}`;
     let sql2=`SELECT COUNT(*) AS'i' FROM classify`
     let data = await _sql.query(sql);
     let data1 = await _sql.query(sql2);
     let data2={
         "code": 0,
         "msg": "",
-        "count": data1.data.i,
+        "count": data1.data[0].i,
         "data":data.data
     }
     res.send(data2);
@@ -112,7 +115,7 @@ Router.post('/upload',upload.single('imgupload'), (req,res)=>{
     // 通过req.file获取到上传文件的内容
     console.log(path.normalize(req.file.path),req.body);//req.body获取imgid
     // 存储到数据库
-    
+
     res.send({
         code:1,
         msg:'文件上传成功',

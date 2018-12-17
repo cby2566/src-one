@@ -202,7 +202,6 @@ layui.define(['table','element','form'],function(exports){
             limit: 10,
             done: function(){
               var updown=document.querySelectorAll('.updown');
-
               for(var i=0;i<updown.length;i++){
                 let ok=updown[i].parentNode.parentNode.parentNode.children[7]
                 if(ok){
