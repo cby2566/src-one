@@ -186,7 +186,7 @@ layui.define(['table','element','form'],function(exports){
     arr3.push({fixed: 'right', title:'操作', toolbar: '#barDemo', width:200});
     arr4.push(arr3);
     //拼接表头按键组
-    let TaB=`<div class="layui-btn-container">
+    let TaB=`<div class="layui-btn-container" lay-filter="addi">
             <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
             <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
             <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
@@ -282,7 +282,10 @@ layui.define(['table','element','form'],function(exports){
             }
           });
         } else if(obj.event === 'edit'){
-          layer.alert('编辑行：<br>'+ JSON.stringify(data))
+          ///layer.alert('编辑行：<br>'+ JSON.stringify(data))
+		  let data1=JSON.stringify(data);
+               
+          add_pop(layer,form,'xiugai',data);
         }
       });
 	  
@@ -296,15 +299,18 @@ layui.define(['table','element','form'],function(exports){
     });
   }
   
-function add_pop(layer,form){
-  //测试弹出框
+function add_pop(layer,form,xiu_g,jis){
+  //测试增加修改商品弹出框
+
+let titi='';
+let sid=0;
 
 let ht=`
-<form class="layui-form" action="">
+<form class="layui-form" action="" lay-filter='username1'>
   <div class="layui-form-item">
     <label class="layui-form-label ">商品名</label>
     <div class="layui-input-inline">
-      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input SNAME">
+      <input type="text" name="SNAME" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input SNAME" >
     </div>
     <div class="layui-form-mid layui-word-aux">辅助文字</div>
   </div>
@@ -312,7 +318,7 @@ let ht=`
   <div class="layui-form-item">
     <label class="layui-form-label ">副标题</label>
     <div class="layui-input-inline">
-      <input type="text" name="title2" required lay-verify="required" placeholder="请输入副标题" autocomplete="off" class="layui-input STAG">
+      <input type="text" name="STAG" required lay-verify="required" placeholder="请输入副标题" autocomplete="off" class="layui-input STAG">
     </div>
     <div class="layui-form-mid layui-word-aux">辅助文字</div>
   </div>
@@ -320,7 +326,7 @@ let ht=`
   <div class="layui-form-item">
     <label class="layui-form-label ">商品价格</label>
     <div class="layui-input-inline">
-      <input type="text" name="password" required lay-verify="required" placeholder="请再次商品价格" autocomplete="off" class="layui-input PRICE">
+      <input type="text" name="PRICE" required lay-verify="required" placeholder="请再次商品价格" autocomplete="off" class="layui-input PRICE">
     </div>
     <div class="layui-form-mid layui-word-aux">辅助文字</div>
   </div>
@@ -328,7 +334,7 @@ let ht=`
   <div class="layui-form-item">
     <label class="layui-form-label">商品库存</label>
     <div class="layui-input-inline">
-      <input type="text" name="title" required  lay-verify="required" placeholder="请输入剩余数量" autocomplete="off" class="layui-input REPE">
+      <input type="text" name="REPE" required  lay-verify="required" placeholder="请输入剩余数量" autocomplete="off" class="layui-input REPE">
     </div>
   </div>
   
@@ -359,7 +365,7 @@ let ht=`
     <div class="layui-form-item">
     <label class="layui-form-label">商品描述</label>
     <div class="layui-input-block">
-      <textarea name="desc" placeholder="请输入内容" class="layui-textarea SCON"></textarea>
+      <textarea name="SCON" placeholder="请输入内容" class="layui-textarea SCON"></textarea>
     </div>
   </div>
 
@@ -390,20 +396,28 @@ form.on('switch(shang)', function(data){
   //console.log(data.value); //开关value值，也可以通过data.elem.value得到
   //console.log(data.othis); //得到美化后的DOM对象
 }); 
+  if(xiu_g=='xiugai'){
+    titi='修改商品';  
+    sid=jis['SID'];
+  }else{
+    titi='添加商品';
+  }
+//
+  
+
 
   layer.open({
-    title: '添加商品'
+    title: titi
     ,content: ht
     //,offset: '100px'
     ,skin: 'demo-class'
     ,area:['800px', 'auto']
     ,yes:function(index, layero){
-
       //console.log(layero[0].querySelector('.SCON').value);
       let scon=layero[0].querySelector('.SCON').value;
       let sname=layero[0].querySelector('.SNAME').value;
       let stag=layero[0].querySelector('.STAG').value;
-      let dian=1;//shang
+      let dian=1;//分类
       let repe=Number(layero[0].querySelector('.REPE').value);//库存
       let price=layero[0].querySelector('.PRICE').value;
 
@@ -411,12 +425,13 @@ form.on('switch(shang)', function(data){
            
       var status = [200,304];
       var xhr =new XMLHttpRequest();
-            xhr.open('get',`/goods/insert?SCON=${scon}&SNAME=${sname}&STAG=${stag}&DIAN=${dian}&REPE=${repe}&PRICE=${price}`,true);
+      let dat_add='insert';
+      dat_add=xiu_g=='xiugai'?'update':dat_add;
+            xhr.open('get',`/goods/${dat_add}?SCON=${scon}&SNAME=${sname}&STAG=${stag}&DIAN=${dian}&REPE=${repe}&PRICE=${price}&SID=${sid}`,true);
             xhr.send();
             xhr.onload=()=>{
               if(status.includes(xhr.status)){
                 console.log(JSON.parse(xhr.responseText).status);
-
               }
             }
 
@@ -424,6 +439,16 @@ form.on('switch(shang)', function(data){
     }
 
   });
+console.log(jis['SNAME'])
+ 
+form.val("username1", {
+  "SNAME": jis['SNAME'],
+  "STAG": jis['STAG'],
+  "SCON": jis['SCON'],
+  "PRICE": jis['PRICE'],
+  "REPE": jis['REPE'],
+  "DIAN": jis['DIAN'],
+});
 form.render();//刷新表单样式-全部
 }
   
