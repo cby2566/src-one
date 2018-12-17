@@ -1,7 +1,8 @@
 const express = require('express');
 const _sql = require('./sql');
-let Router = express.Router();
 
+let Router = express.Router();
+//商品列表渲染
 Router.get('/', async(req, res) => {
     // res.set({'Content-Type':'application/json;charset=UTF-8'});
     let sql = `SELECT * FROM ulist order by sid`;
@@ -17,6 +18,7 @@ Router.get('/', async(req, res) => {
     res.send(data2);
 });
 
+//商品分类渲染
 Router.get('/classify', async(req, res) => {
     // res.set({'Content-Type':'application/json;charset=UTF-8'});
     let sql = `SELECT * FROM classify`;
@@ -31,6 +33,8 @@ Router.get('/classify', async(req, res) => {
     }
     res.send(data2);
 });
+
+//删除数据
 Router.delete('/',async (req, res) => {
     let id=req.query.id;
     let value=req.query.value;
@@ -48,8 +52,9 @@ Router.delete('/',async (req, res) => {
     }
     let data = await _sql.query(sql);
     res.send(data);
-})
+});
 
+//上下架更新
 Router.get('/updown',async(req,res)=>{
     let id=req.query.id;
     let type=req.query.type;
@@ -70,26 +75,15 @@ Router.get('/updown',async(req,res)=>{
     // }
     let data = await _sql.query(sql);
     res.send(data);
-})
+});
 
-// Router.route('/:id')
-//     //获取商品信息
-//     .get(async(req, res) => {
-//         let sql = `SELECT * FROM ulist WHERE SID=${req.params.id}`;
-//         let data = await _sql.query(sql);
-//         res.send(data);
-//     })
-//     //修改商品信息
-//     // .delete((req, res) => {
-//     //     console.log(res.query)
-//     // })
-
+//添加商品
 Router.get('/insert',async (res,req)=>{
     let {STAG,SNAME,SCON,PRICE,DIAN,REPE}=res.query;
     console.log(STAG,SNAME,SCON,PRICE,DIAN,REPE)
     let sql=`INSERT into ulist (STAG,SNAME,SCON,PRICE,DIAN,REPE) VALUES ('${STAG}','${SNAME}','${SCON}','${PRICE}','${DIAN}',${REPE})`;
     let data = await _sql.query(sql);
     req.send(data);
-})
+});
 
 module.exports = Router;
