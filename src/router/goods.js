@@ -90,6 +90,16 @@ Router.get('/insert',async (res,req)=>{
     let sql=`INSERT into ulist (STAG,SNAME,SCON,PRICE,DIAN,REPE) VALUES ('${STAG}','${SNAME}','${SCON}','${PRICE}','${DIAN}',${REPE})`;
     let data = await _sql.query(sql);
     req.send(data);
-})
+});
+
+//更新商品接口
+Router.get('/update',async (res,req)=>{
+    let {STAG,SNAME,SCON,PRICE,DIAN,REPE,SID}=res.query;
+    //console.log(STAG,SNAME,SCON,PRICE,DIAN,REPE)
+    let sql=`UPDATE ulist SET STAG='${STAG}',SNAME='${SNAME}',SCON='${SCON}',PRICE='${PRICE}',DIAN='${DIAN}',REPE=${REPE} WHERE SID=${SID}`;
+    console.log(sql);
+    let data = await _sql.query(sql);
+    req.send(data);
+});
 
 module.exports = Router;
