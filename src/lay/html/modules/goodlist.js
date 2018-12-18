@@ -72,7 +72,15 @@ layui.define(['table','element','form'],function(exports){
     let arr1=arrConfig()[0];
     let arr2=arrConfig()[1];
     //暂时区分添加商品和商品下架      
-    let add_item=arrConfig()[2]=='商品列表'?`<button class="layui-btn layui-btn-sm" lay-event="add_item">添加商品</button>`:'';
+    let add_item='';
+
+    if(arrConfig()[2]=='商品列表'){
+      add_item=`<button class="layui-btn layui-btn-sm" lay-event="add_item">添加商品</button>`;
+    }else if(arrConfig()[2]=='商品分类'){
+      add_item=`<button class="layui-btn layui-btn-sm" lay-event="add_itemFen">添加商品分类</button>`;
+    }else if(arrConfig()[2]=='用户列表'){
+      add_item=`<button class="layui-btn layui-btn-sm" lay-event="add_user">添加用户</button>`;
+    }
 
     let str=''
     let arr3=[];
@@ -214,7 +222,12 @@ layui.define(['table','element','form'],function(exports){
       console.log(obj.event)
       if(obj.event=='add_item'){
           add_pop(layer,form);
+      }else if(obj.event=='add_itemFen'){
+          userFun.goodFen(layer,'');
+      }else if(obj.event=='add_user'){
+          userFun.fun(layer,'');
       }
+
     });
   }
   
@@ -290,20 +303,29 @@ let ht=`
     </div>
   </div>
 
+    <input type="file" name="imgupload" id="imgupload" />
+    <div class="btn" style="width:20px;height:20px;">上传图片</div>
+    <script>
+        let imgupload=document.querySelector('#imgupload');
+        let btn=document.querySelector('.btn');
 
-<button type="button" class="layui-btn" id="test2">
-  <i class="layui-icon">&#xe67c;</i>上传图片
-</button>
-
-<script>
-layui.use('upload', function(){
-  var upload = layui.upload;
-   
-  //执行实例
-  var uploadInst = upload.render({
-    elem: '#test2' //绑定元素
-  });
-});
+        btn.onclick=()=>{
+            console.log(imgupload.files[0]);
+            let formData=new FormData();
+            
+            formData.append('imgupload',imgupload.files[0]);
+            formData.append('imgid','1');
+            console.log(formData);
+            var xhr = new XMLHttpRequest();
+            var status= [200,304]
+            xhr.open('post','/goods/upload',true);
+            xhr.send(formData);
+            xhr.onload=()=>{
+                if(status.includes(xhr.status)){
+                    console.log(xhr.responseText);
+                }
+            }
+        }
 </script>
 
 </form>

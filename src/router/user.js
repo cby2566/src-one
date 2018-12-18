@@ -10,7 +10,7 @@ Router.get('/',async(req,res)=>{
     let dataArr=[];
     // console.log(data.data[0].status)
     for(let i=0;i<data.data.length;i++){
-        if(data.data[i].status!=1){
+        if(data.data[i].status==1){
             // console.log(data.data[i]);
             dataArr.push(data.data[i]);
         }
@@ -21,7 +21,7 @@ Router.get('/',async(req,res)=>{
     let data2={
         "code": 0,
         "msg": "20",
-        "count": data1.data[0].i,
+        "count": dataArr1.length,
         "data":dataArr1
     }
     res.send(data2);

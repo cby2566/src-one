@@ -48,7 +48,7 @@ Router.get('/classify/add',async(req, res)=>{
 Router.get('/classify/amend',async(req, res)=>{
     let {qname,qid}=req.query;
     let sql=`UPDATE classify SET qname='${qname}' where qid = ${qid}`;
-    let data = await _sql.query(sql);
+    let data = await _sql.query(sql); 
     res.send(data);
 });
 

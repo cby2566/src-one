@@ -48,10 +48,14 @@ if(typeof(data)=='object'){
         ,yes:function(index, layero){
                 fname=layero[0].querySelector('.fname').value;
                 fpws=layero[0].querySelector('.fpws').value;
+                var xhr =new XMLHttpRequest();
                 if (typeof(data)=='object') {
                     obj.update({fid:fid,fname:fname});
+                    xhr.open('get',`/user/amend?username=${fname}&password=${fpws}&fid=${fid}`,true);
+                }else{
+                    xhr.open('get',`/user/add?username=${fname}&password=${fpws}`,true);
                 }
-
+                xhr.send();
                 layer.close(index);          
             }
         });
@@ -62,10 +66,11 @@ if(typeof(data)=='object'){
 function userF2(layer,data,obj){
 //商品分类修改
     
-    let qname='',tie='';
+    let qname='',tie='',qid='';
          
     if(typeof(data)=='object'){
         qname=data['qname'];
+        qid=data['qid'];
         tie='修改商品分类';
     }else{
         tie='添加商品分类';
@@ -88,9 +93,15 @@ function userF2(layer,data,obj){
         ,area:['auto', 'auto']
         ,yes:function(index, layero){
                 qname=layero[0].querySelector('.qname').value;
+                var xhr =new XMLHttpRequest();
                 if (typeof(data)=='object') {
                     obj.update({qname:qname});
+                    xhr.open('get',`/goods/classify/amend?qname=${qname}&qid=${qid}`,true);
+                }else{
+                    xhr.open('get',`/goods/classify/add?qname=${qname}`,true);
                 }
+                xhr.send();
+
                 layer.close(index);          
             }
         });
