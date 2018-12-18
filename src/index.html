@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/layui/css/layui.css">
     <script src="./assets/jquery-3.2.1.js"></script>
     <script src="./assets/idcode/jquery.idcode.js"></script>
+    <script src="./js/common.js"></script>
 </head>
 
 <body>
@@ -51,7 +52,7 @@
             </div>
             <div class="aboutcode err">
                 <div class="remcode">
-                    <span id="checkbox"></span>
+                    <span class="checkbox set"></span>
                     <span class="remme">记住我</span>
                 </div>
                 <a href="javascript:;">忘记密码？</a>
@@ -66,6 +67,13 @@
         let password = document.querySelector('#password');
         let codenumerr = document.querySelector('.codenumerr');
         let usererr=document.querySelectorAll('.usererr');
+        $('.checkbox').click(function(){
+            if($('.checkbox').hasClass('set')){
+                $('.checkbox').removeClass('set')
+            }else{
+                $('.checkbox').addClass('set');
+            }
+        })
         $(".layui-btn").click(function () {
 
             var IsBy = $.idcode.validateCode();//布尔值
@@ -81,6 +89,14 @@
                         if (res.status === 1) {
                             console.log(res)
                             if (res.data.length > 0) {
+                                if($('.checkbox').hasClass('set')){
+                                    console.log('记住')
+                                    var now = new Date();
+						            now.setDate(now.getDate() +7);
+                                    Cookie.set('username',_username,{path: '/',expires: now})
+                                }else{
+                                    Cookie.set('username',_username,{path: '/'})
+                                }
                                 location.href = 'lay/html/index.html';
                             } else {
                                 for(var i=0;i<usererr.length;i++){

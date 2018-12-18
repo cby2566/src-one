@@ -62,7 +62,7 @@
     position: relative;
     width: 100px;
     height: 21px; }
-    #box #main .aboutcode .remcode #checkbox {
+    #box #main .aboutcode .remcode .checkbox {
       position: absolute;
       top: 3px;
       width: 21px;
@@ -72,6 +72,9 @@
       background: #fff;
       border-radius: 2px;
       cursor: pointer; }
+    #box #main .aboutcode .remcode .set {
+      background-image: url(../assets/img/right.png);
+      background-size: 20px 20px; }
     #box #main .aboutcode .remcode .remme {
       position: absolute;
       top: 2px;

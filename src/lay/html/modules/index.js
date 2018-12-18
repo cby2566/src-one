@@ -19,6 +19,7 @@ layui.define(['layer', 'form','element','table'], function(exports){
 //     layer.msg(elem.text());
 // });
 
+
 //   element.on('nav(do)', function(elem){
 //     layer.msg('面包屑');
 //   });
