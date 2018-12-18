@@ -1,3 +1,4 @@
+
 layui.define(['table','element','form'],function(exports){
     //商品列表渲染
     let element = layui.element
@@ -9,7 +10,7 @@ layui.define(['table','element','form'],function(exports){
     //tableRender(table,form);
     element.on('nav()', function(elem){
     
-    var table = layui.table;
+    table = layui.table;
     var form = layui.form;
 
     //得到teble对象
@@ -19,17 +20,17 @@ layui.define(['table','element','form'],function(exports){
     let url ='/goods';
 
     
-    let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
-    let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
-    tableRender(table,form,function(){
+    arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
+    arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
+    var tableIns=tableRender(table,form,function(){
       return [arr1,arr2,title,url];
     });
 
     }
     if(this.dataset.id==2){
 
-      let arr1=['ID','商品分类'];
-      let arr2=['qid','qname'];
+      arr1=['ID','商品分类'];
+      arr2=['qid','qname'];
       let title=arr1[1];
       let url ='/goods/classify';
 
@@ -40,8 +41,8 @@ layui.define(['table','element','form'],function(exports){
 
     if(this.dataset.id==3){
 
-      let arr1=['ID','用户名','加入时间'];
-      let arr2=['fid','fname','joi'];
+      arr1=['ID','用户名','加入时间'];
+      arr2=['fid','fname','joi'];
       let title='用户列表';
       let url ='/user';
 
@@ -99,16 +100,25 @@ layui.define(['table','element','form'],function(exports){
             limit: 10,
             done: function(res, curr, count){
               var updown=document.querySelectorAll('.updown');
-              for(var i=0;i<updown.length;i++){
+              //console.log(arrConfig()[2],updown);
+              if(arrConfig()[2]=='商品列表'){
+                for(var i=0;i<updown.length;i++){
                 let ok=updown[i].parentNode.parentNode.parentNode.children[7]
-                if(ok){
-                  let status=ok.innerText;
-                  if(status==1){
-                    updown[i].innerText='上架';
-                    updown[i].classList.add('layui-btn-warm');
+                  if(ok){
+                      let status=ok.innerText;
+                      if(status==1){
+                        updown[i].innerText='上架';
+                        updown[i].classList.add('layui-btn-warm');
+                      }
                   }
                 }
+              }else{
+                for(var i=0;i<updown.length;i++){
+                  updown[i].remove();
+                }
+                     
               }
+              
 
               //得到当前页码
               console.log(curr,res); 
@@ -123,11 +133,11 @@ layui.define(['table','element','form'],function(exports){
         var data = obj.data;
         if(obj.event === 'up'){
           // layer.msg('ID：'+ data.id + ' 的查看操作');
-          console.log(this)
+          //console.log(this)
           let statusText=this.parentNode.parentNode.parentNode.children[7];
           var status = [200,304];
           var uid=Object.values(data)[0];
-          console.log(uid)
+          //console.log(uid)
           if(this.classList.contains('layui-btn-warm')){
             this.innerText='下架';
             this.classList.remove('layui-btn-warm');
@@ -164,6 +174,7 @@ layui.define(['table','element','form'],function(exports){
             obj.del();
             layer.close(index);
             var id=Object.keys(data)[0];
+            //js原生方法获取所有的键值对
             var value=Object.values(data)[0];
             var status = [200,304];
             var xhr =new XMLHttpRequest();
@@ -171,14 +182,15 @@ layui.define(['table','element','form'],function(exports){
             xhr.send();
             xhr.onload=()=>{
               if(status.includes(xhr.status)){
-                console.log(JSON.parse(xhr.responseText).status)
-                
+                console.log(JSON.parse(xhr.responseText).status);
               }
             }
           });
         } else if(obj.event === 'edit'){
           ///layer.alert('编辑行：<br>'+ JSON.stringify(data))
-		  let data1=JSON.stringify(data);
+		      let data1=JSON.stringify(data);
+          
+          //console.log(Object.keys(data)[0])
                
           add_pop(layer,form,'xiugai',data);
         }
@@ -196,6 +208,9 @@ layui.define(['table','element','form'],function(exports){
   
 function add_pop(layer,form,xiu_g,jis){
   //测试增加修改商品弹出框
+  if(!jis['SID'])
+      return ;
+  //如果不是商品列表则不弹出
 
 let titi='';
 let sid=0;
@@ -280,7 +295,6 @@ layui.use('upload', function(){
 });
 </script>
 
-
 </form>
 `;
 
@@ -316,7 +330,7 @@ form.on('switch(shang)', function(data){
       let repe=Number(layero[0].querySelector('.REPE').value);//库存
       let price=layero[0].querySelector('.PRICE').value;
 
-      console.log(scon,sname,stag,dian,repe,price);
+      //console.log(scon,sname,stag,dian,repe,price);
            
       var status = [200,304];
       var xhr =new XMLHttpRequest();
@@ -331,6 +345,13 @@ form.on('switch(shang)', function(data){
             }
 
       layer.close(index);
+      console.log('table')
+           
+      let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
+      let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
+      tableRender(table,form,function(){
+        return [arr1,arr2,'商品列表','/goods'];
+      });
     }
 
   });
@@ -346,4 +367,9 @@ form.val("username1", {
 });
 form.render();//刷新表单样式-全部
 }
+
+//提升至全局变量12.17
+var table='';
+var arr1='';
+var arr2='';
   

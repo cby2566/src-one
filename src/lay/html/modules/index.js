@@ -11,7 +11,7 @@ layui.define(['layer', 'form','element','table'], function(exports){
   console.log('index.js',xxx);
   layer.msg('Hello World');
   
-<<<<<<< HEAD
+
   //element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
   //element.render('nav'); 
   
@@ -23,9 +23,7 @@ layui.define(['layer', 'form','element','table'], function(exports){
   //element.on('nav(do)', function(elem){
     //layer.msg('面包屑');
  // });
-=======
 
->>>>>>> 592d13463628786034902e4a6655f5725f595374
 
   exports('index', {}); //注意，这里是模块输出的核心，模块名必须和use时的模块名一致
 });
