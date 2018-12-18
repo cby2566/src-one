@@ -1,50 +1,30 @@
 const express=require('express');
+const _sql = require('./sql');
 let Router= express.Router();
 
-Router.get('/',(req,res)=>{
-    let dat2={
-        "code": 0,
-        "msg": "",
-        "count": 1000,
-        "data":[
-            {
-                "fid": 10000,
-                "fname": "user-0",
-                "sex": "女",
-                "city": "城市-0",
-                "sign": "签名-0"
-            },
-            {
-                "fid": 10001,
-                "fname": "user-3",
-                "sex": "女",
-                "city": "城市-0",
-                "sign": "签名-0"
-            },
-            {
-                "fid": 10002,
-                "fname": "user-7",
-                "sex": "女",
-                "city": "城市-0",
-                "sign": "签名-0"
-            },
-            {
-                "fid": 10003,
-                "fname": "user-2",
-                "sex": "女",
-                "city": "城市-0",
-                "sign": "签名-0"
-            },
-            {
-                "fid": 10004,
-                "fname": "user-3",
-                "sex": "女",
-                "city": "城市-0",
-                "sign": "签名-0"
-            }
-        ]
+Router.get('/',async(req,res)=>{
+    let {page,limit} = req.query;
+    let sql=`select * from f_user`;
+    let sql2=`SELECT COUNT(*) AS'i' FROM f_user`
+    let data = await _sql.query(sql);
+    let dataArr=[];
+    // console.log(data.data[0].status)
+    for(let i=0;i<data.data.length;i++){
+        if(data.data[i].status!=1){
+            // console.log(data.data[i]);
+            dataArr.push(data.data[i]);
+        }
     }
-    res.send(dat2)
+    console.log(dataArr);
+    var dataArr1 = dataArr.splice((page-1)*10,limit);
+    let data1 = await _sql.query(sql2);
+    let data2={
+        "code": 0,
+        "msg": "20",
+        "count": data1.data[0].i,
+        "data":dataArr1
+    }
+    res.send(data2);
 });
 
 module.exports=Router;
