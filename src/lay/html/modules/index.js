@@ -11,13 +11,18 @@ layui.define(['layer', 'form','element','table'], function(exports){
   console.log('index.js',xxx);
   layer.msg('Hello World');
   
-//   element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
-//   element.render('nav'); 
+
+  //element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
+  //element.render('nav'); 
   
-//   element.on('nav()', function(elem){
+  //element.on('nav()', function(elem){
     
-//     layer.msg(elem.text());
-// });
+    //layer.msg(elem.text());
+//});
+
+  //element.on('nav(do)', function(elem){
+    //layer.msg('面包屑');
+ // });
 
 
 //   element.on('nav(do)', function(elem){

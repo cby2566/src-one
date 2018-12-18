@@ -1,161 +1,53 @@
+
 layui.define(['table','element','form'],function(exports){
     //商品列表渲染
     let element = layui.element
     element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
     element.render('nav');
-	//渲染表格封装方法
-    var table = layui.table;
-    var form = layui.form;
-    tableRender(table,form);
+	   //渲染表格封装方法
+    // var table = layui.table;
+    //var form = layui.form;
+    //tableRender(table,form);
     element.on('nav()', function(elem){
+    
+    table = layui.table;
+    var form = layui.form;
+
     //得到teble对象
     if(this.dataset.id==1){
 		//渲染表格封装方法
-    var table = layui.table;
-    var form = layui.form;
-    tableRender(table,form);
+    let title='商品列表';
+    let url ='/goods';
+
+    
+    arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
+    arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
+    var tableIns=tableRender(table,form,function(){
+      return [arr1,arr2,title,url];
+    });
 
     }
     if(this.dataset.id==2){
-      layui.use('table', function(){
-        var table = layui.table;
-        
-        table.render({
-          elem: '#test'
-          ,url:'/goods/classify'
-          ,toolbar: `<div class="layui-btn-container">
-          <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-          <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-          <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-        </div>`
-          ,title: '商品列表'
-          ,cols: [[
-            {type: 'checkbox', fixed: 'left'}
-            ,{field:'qid', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-            ,{field:'qname', title:'商品的分类', width:500, edit: 'text'}
-            ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
-            ,{field:'city', title:'价格（原价）', width:120}
-            ,{field:'sign', title:'价格（现价）', width:120}
-            ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
-          ]]
-          ,page: true
-          ,limit: 10
-        });
-        
-        //监听表格复选框选择
-        table.on('checkbox(demo)', function(obj){
-          console.log(obj)
-        });
-        //监听工具条
-        table.on('tool(barDemo)', function(obj){
-          var data = obj.data;
-          if(obj.event === 'detail'){
-            layer.msg('ID：'+ data.id + ' 的查看操作');
-          } else if(obj.event === 'del'){
-            layer.confirm('真的删除行么', function(index){
-              obj.del();
-              layer.close(index);
-            });
-          } else if(obj.event === 'edit'){
-            layer.alert('编辑行：<br>'+ JSON.stringify(data))
-          }
-        });
-        
-        var $ = layui.$, active = {
-          getCheckData: function(){ //获取选中数据
-            var checkStatus = table.checkStatus('idTest')
-            ,data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
-          }
-          ,getCheckLength: function(){ //获取选中数目
-            var checkStatus = table.checkStatus('idTest')
-            ,data = checkStatus.data;
-            layer.msg('选中了：'+ data.length + ' 个');
-          }
-          ,isAll: function(){ //验证是否全选
-            var checkStatus = table.checkStatus('idTest');
-            layer.msg(checkStatus.isAll ? '全选': '未全选')
-          }
-        };
-        
-        $('.demoTable .layui-btn').on('click', function(){
-          var type = $(this).data('type');
-          active[type] ? active[type].call(this) : '';
-        });
-      
-        
-        
+
+      arr1=['ID','商品分类'];
+      arr2=['qid','qname'];
+      let title=arr1[1];
+      let url ='/goods/classify';
+
+      tableRender(table,form,function(){
+        return [arr1,arr2,title,url];
       });
     }
 
     if(this.dataset.id==3){
-      layui.use('table', function(){
-        var table = layui.table;
-        
-        table.render({
-          elem: '#test'
-          ,url:'/user'
-          ,toolbar: `<div class="layui-btn-container">
-          <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-          <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-          <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-        </div>`
-          ,title: '用户列表'
-          ,cols: [[
-            {type: 'checkbox', fixed: 'left'}
-            ,{field:'fid', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-            ,{field:'fname', title:'商品分类', width:200, edit: 'text'}
-            
-            ,{field:'joinTime', title:'加入时间', width:150}
-            ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
-          ]]
-          ,page: true
-          ,limit: 10
-        });
-        
-        //监听表格复选框选择
-        table.on('checkbox(demo)', function(obj){
-          console.log(obj)
-        });
-        //监听工具条
-        table.on('tool(barDemo)', function(obj){
-          var data = obj.data;
-          if(obj.event === 'detail'){
-            layer.msg('ID：'+ data.id + ' 的查看操作');
-          } else if(obj.event === 'del'){
-            layer.confirm('真的删除行么', function(index){
-              obj.del();
-              layer.close(index);
-            });
-          } else if(obj.event === 'edit'){
-            layer.alert('编辑行：<br>'+ JSON.stringify(data))
-          }
-        });
-        
-        var $ = layui.$, active = {
-          getCheckData: function(){ //获取选中数据
-            var checkStatus = table.checkStatus('idTest')
-            ,data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
-          }
-          ,getCheckLength: function(){ //获取选中数目
-            var checkStatus = table.checkStatus('idTest')
-            ,data = checkStatus.data;
-            layer.msg('选中了：'+ data.length + ' 个');
-          }
-          ,isAll: function(){ //验证是否全选
-            var checkStatus = table.checkStatus('idTest');
-            layer.msg(checkStatus.isAll ? '全选': '未全选')
-          }
-        };
-        
-        $('.demoTable .layui-btn').on('click', function(){
-          var type = $(this).data('type');
-          active[type] ? active[type].call(this) : '';
-        });
-      
-        
-        
+
+      arr1=['ID','用户名','加入时间'];
+      arr2=['fid','fname','joi'];
+      let title='用户列表';
+      let url ='/user';
+
+      tableRender(table,form,function(){
+        return [arr1,arr2,title,url];
       });
     }
 
@@ -170,10 +62,16 @@ layui.define(['table','element','form'],function(exports){
   });
 
 
-  function tableRender(table,form){
+  function tableRender(table,form,arrConfig){
     //表格渲染
-    let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
-    let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
+    // let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
+    // let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
+    
+    let arr1=arrConfig()[0];
+    let arr2=arrConfig()[1];
+    //暂时区分添加商品和商品下架      
+    let add_item=arrConfig()[2]=='商品列表'?`<button class="layui-btn layui-btn-sm" lay-event="add_item">添加商品</button>`:'';
+
     let str=''
     let arr3=[];
     let arr4=[];
@@ -190,48 +88,56 @@ layui.define(['table','element','form'],function(exports){
             <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
             <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
             <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-			<button class="layui-btn layui-btn-sm" lay-event="add_item">添加商品</button>
+			       ${add_item}
           </div>`;
   
     let clo={elem: '#test',
-            url:'/goods',
+            url:arrConfig()[3],
             toolbar:TaB,
-            title: '商品列表',
+            title: arrConfig()[2],
             cols:arr4,
             page: {curr:1},
             limit: 10,
-            done: function(){
+            done: function(res, curr, count){
               var updown=document.querySelectorAll('.updown');
-              for(var i=0;i<updown.length;i++){
+              //console.log(arrConfig()[2],updown);
+              if(arrConfig()[2]=='商品列表'){
+                for(var i=0;i<updown.length;i++){
                 let ok=updown[i].parentNode.parentNode.parentNode.children[7]
-                if(ok){
-                  let status=ok.innerText;
-                  if(status==1){
-                    updown[i].innerText='上架';
-                    updown[i].classList.add('layui-btn-warm');
+                  if(ok){
+                      let status=ok.innerText;
+                      if(status==1){
+                        updown[i].innerText='上架';
+                        updown[i].classList.add('layui-btn-warm');
+                      }
                   }
                 }
+              }else{
+                for(var i=0;i<updown.length;i++){
+                  updown[i].remove();
+                }
+                     
               }
+              
+
+              //得到当前页码
+              console.log(curr,res); 
+              
             }
           };
-    console.log(clo);
+    //console.log(clo);
     
     table.render(clo);
-    // var updown=document.querySelectorAll('.updown');
-    // console.log(updown)
-    // for(var i=0;i<updown.length;i++){
-    //   var status=updown[i].parentNode.parentNode.parentNode.children[7].children.innerText;
-    //   console.log(status);
-    // }
+
     table.on('tool()', function(obj){
         var data = obj.data;
         if(obj.event === 'up'){
           // layer.msg('ID：'+ data.id + ' 的查看操作');
-          console.log(this)
+          //console.log(this)
           let statusText=this.parentNode.parentNode.parentNode.children[7];
           var status = [200,304];
           var uid=Object.values(data)[0];
-          console.log(uid)
+          //console.log(uid)
           if(this.classList.contains('layui-btn-warm')){
             this.innerText='下架';
             this.classList.remove('layui-btn-warm');
@@ -268,6 +174,7 @@ layui.define(['table','element','form'],function(exports){
             obj.del();
             layer.close(index);
             var id=Object.keys(data)[0];
+            //js原生方法获取所有的键值对
             var value=Object.values(data)[0];
             var status = [200,304];
             var xhr =new XMLHttpRequest();
@@ -275,14 +182,15 @@ layui.define(['table','element','form'],function(exports){
             xhr.send();
             xhr.onload=()=>{
               if(status.includes(xhr.status)){
-                console.log(JSON.parse(xhr.responseText).status)
-                
+                console.log(JSON.parse(xhr.responseText).status);
               }
             }
           });
         } else if(obj.event === 'edit'){
           ///layer.alert('编辑行：<br>'+ JSON.stringify(data))
-		  let data1=JSON.stringify(data);
+		      let data1=JSON.stringify(data);
+          
+          //console.log(Object.keys(data)[0])
                
           add_pop(layer,form,'xiugai',data);
         }
@@ -300,6 +208,9 @@ layui.define(['table','element','form'],function(exports){
   
 function add_pop(layer,form,xiu_g,jis){
   //测试增加修改商品弹出框
+  if(!jis['SID'])
+      return ;
+  //如果不是商品列表则不弹出
 
 let titi='';
 let sid=0;
@@ -384,7 +295,6 @@ layui.use('upload', function(){
 });
 </script>
 
-
 </form>
 `;
 
@@ -420,7 +330,7 @@ form.on('switch(shang)', function(data){
       let repe=Number(layero[0].querySelector('.REPE').value);//库存
       let price=layero[0].querySelector('.PRICE').value;
 
-      console.log(scon,sname,stag,dian,repe,price);
+      //console.log(scon,sname,stag,dian,repe,price);
            
       var status = [200,304];
       var xhr =new XMLHttpRequest();
@@ -435,6 +345,13 @@ form.on('switch(shang)', function(data){
             }
 
       layer.close(index);
+      console.log('table')
+           
+      let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
+      let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
+      tableRender(table,form,function(){
+        return [arr1,arr2,'商品列表','/goods'];
+      });
     }
 
   });
@@ -450,4 +367,9 @@ form.val("username1", {
 });
 form.render();//刷新表单样式-全部
 }
+
+//提升至全局变量12.17
+var table='';
+var arr1='';
+var arr2='';
   
