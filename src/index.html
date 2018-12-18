@@ -62,7 +62,8 @@
     </div>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', index())
+    function index(){
         let username = document.querySelector('#username');
         let password = document.querySelector('#password');
         let codenumerr = document.querySelector('.codenumerr');
@@ -116,7 +117,7 @@
                 codenumerr.children[0].style.color = 'red';
             }
         });
-    })
+    }
 </script>
 
 </html>
