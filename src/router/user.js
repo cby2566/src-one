@@ -27,4 +27,18 @@ Router.get('/',async(req,res)=>{
     res.send(data2);
 });
 
+Router.get('/add',async(req,res)=>{
+    let {password,username} = req.query;
+    let sql=`INSERT INTO f_user (fname,fpws,STATUS) VALUES ('${username}','${password}',1)`;
+    let data = await _sql.query(sql);
+    res.send(data);
+})
+
+Router.get('/amend',async(req,res)=>{
+    let {password,username,fid} = req.query;
+    let sql=`UPDATE f_user SET fname='${username}',fpws='${password}' where fid = ${fid}`;
+    let data = await _sql.query(sql);
+    res.send(data);
+})
+
 module.exports=Router;

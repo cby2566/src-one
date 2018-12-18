@@ -38,6 +38,20 @@ Router.get('/classify', async(req, res) => {
     res.send(data2);
 });
 
+Router.get('/classify/add',async(req, res)=>{
+    let {qname}=req.query;
+    let sql=`INSERT into classify (qname) VALUES ('${qname}')`;
+    let data = await _sql.query(sql);
+    res.send(data);
+});
+
+Router.get('/classify/amend',async(req, res)=>{
+    let {qname,qid}=req.query;
+    let sql=`UPDATE classify SET qname='${qname}' where qid = ${qid}`;
+    let data = await _sql.query(sql);
+    res.send(data);
+});
+
 //删除数据
 Router.delete('/',async (req, res) => {
     let id=req.query.id;
