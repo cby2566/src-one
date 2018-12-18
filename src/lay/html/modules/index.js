@@ -9,7 +9,7 @@ layui.define(['layer', 'form','element','table'], function(exports){
 
   
   console.log('index.js',xxx);
-  layer.msg('Hello World');
+  //layer.msg('Hello World');
   
 
   //element.init(); //更新全部  2.1.6 可用 element.render() 方法替代

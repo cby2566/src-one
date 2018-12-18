@@ -1,7 +1,9 @@
 
 layui.define(['table','element','form'],function(exports){
     //商品列表渲染
-    let element = layui.element
+    let element = layui.element;
+    
+
     element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
     element.render('nav');
 	   //渲染表格封装方法
@@ -121,7 +123,7 @@ layui.define(['table','element','form'],function(exports){
               
 
               //得到当前页码
-              console.log(curr,res); 
+              //console.log(curr,res); 
               
             }
           };
@@ -189,10 +191,20 @@ layui.define(['table','element','form'],function(exports){
         } else if(obj.event === 'edit'){
           ///layer.alert('编辑行：<br>'+ JSON.stringify(data))
 		      let data1=JSON.stringify(data);
-          
-          //console.log(Object.keys(data)[0])
+          console.log(this);
                
-          add_pop(layer,form,'xiugai',data);
+          //console.log(Object.keys(data)[0])
+          if(data['SID']){
+            add_pop(layer,form,'xiugai',data);
+          }else if(data['fid']){
+            userFun.fun(layer,data,obj);
+   
+            //obj.update({fname:user2['fname']});
+          }else if(data['qid']){
+            userFun.goodFen(layer,data,obj);
+
+          }
+          
         }
       });
 	  
@@ -208,8 +220,7 @@ layui.define(['table','element','form'],function(exports){
   
 function add_pop(layer,form,xiu_g,jis){
   //测试增加修改商品弹出框
-  if(!jis['SID'])
-      return ;
+  
   //如果不是商品列表则不弹出
 
 let titi='';
@@ -345,7 +356,7 @@ form.on('switch(shang)', function(data){
             }
 
       layer.close(index);
-      console.log('table')
+     //console.log('table')
            
       let arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
       let arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
@@ -355,16 +366,19 @@ form.on('switch(shang)', function(data){
     }
 
   });
-console.log(jis['SNAME'])
- 
-form.val("username1", {
-  "SNAME": jis['SNAME'],
-  "STAG": jis['STAG'],
-  "SCON": jis['SCON'],
-  "PRICE": jis['PRICE'],
-  "REPE": jis['REPE'],
-  "DIAN": jis['DIAN'],
-});
+//console.log(jis['SNAME'])
+ if(xiu_g=='xiugai'){
+  form.val("username1", {
+    "SNAME": jis['SNAME'],
+    "STAG": jis['STAG'],
+    "SCON": jis['SCON'],
+    "PRICE": jis['PRICE'],
+    "REPE": jis['REPE'],
+    "DIAN": jis['DIAN'],
+  });
+ }
+
+
 form.render();//刷新表单样式-全部
 }
 
@@ -372,4 +386,11 @@ form.render();//刷新表单样式-全部
 var table='';
 var arr1='';
 var arr2='';
-  
+var userFun={};
+//引入外部模块
+layui.use(['userlist'],function(user){ 
+  userFun.fun=user().userFun;
+  userFun.goodFen=user().userFun2;
+});
+
+
