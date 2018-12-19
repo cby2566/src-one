@@ -14,13 +14,15 @@ layui.define(['table','element','form'],function(exports){
     
     table = layui.table;
     var form = layui.form;
-
+    console.log(this.dataset.id)
+         
     //得到teble对象
     if(this.dataset.id==1){
 		//渲染表格封装方法
     let title='商品列表';
     let url ='/goods';
-
+    document.querySelector('#tile1').innerText='商品管理';
+    document.querySelector('#tile2 cite').innerText='商品列表';
     
     arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
     arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
@@ -30,7 +32,8 @@ layui.define(['table','element','form'],function(exports){
 
     }
     if(this.dataset.id==2){
-
+      document.querySelector('#tile1').innerText='商品管理';
+      document.querySelector('#tile2').innerText='商品分类';
       arr1=['ID','商品分类'];
       arr2=['qid','qname'];
       let title=arr1[1];
@@ -42,7 +45,8 @@ layui.define(['table','element','form'],function(exports){
     }
 
     if(this.dataset.id==3){
-
+      document.querySelector('#tile1').innerText='用户管理';
+      document.querySelector('#tile2').innerText='用户列表';
       arr1=['ID','用户名','加入时间'];
       arr2=['fid','fname','joi'];
       let title='用户列表';
@@ -52,6 +56,16 @@ layui.define(['table','element','form'],function(exports){
         return [arr1,arr2,title,url];
       });
     }
+
+    if (this.dataset.id==4) {
+
+      var xhr =new XMLHttpRequest();
+      xhr.open('get',`/car`,true);
+      xhr.send();
+    }
+
+
+
 
     })
   
@@ -238,6 +252,18 @@ function add_pop(layer,form,xiu_g,jis){
 
 let titi='';
 let sid=0;
+let imgUrl='';
+let imgDiv=`<input type="file" name="imgupload" id="imgupload" class="layui-bg-green" />
+    <div class="imgbtn layui-btn layui-btn-primary">上传图片</div>
+    <img src="" class="imgDom" height="20px" width="20px"/>`;
+
+if(xiu_g=='xiugai'){
+    titi='修改商品';  
+    sid=jis['SID'];
+    imgDiv='';
+  }else{
+    titi='添加商品'; 
+  }
 
 let ht=`
 <form class="layui-form" action="" lay-filter='username1'>
@@ -303,31 +329,7 @@ let ht=`
     </div>
   </div>
 
-    <input type="file" name="imgupload" id="imgupload" />
-    <div class="btn" style="width:20px;height:20px;">上传图片</div>
-    <script>
-        let imgupload=document.querySelector('#imgupload');
-        let btn=document.querySelector('.btn');
-
-        btn.onclick=()=>{
-            console.log(imgupload.files[0]);
-            let formData=new FormData();
-            
-            formData.append('imgupload',imgupload.files[0]);
-            formData.append('imgid','1');
-            console.log(formData);
-            var xhr = new XMLHttpRequest();
-            var status= [200,304]
-            xhr.open('post','/goods/upload',true);
-            xhr.send(formData);
-            xhr.onload=()=>{
-                if(status.includes(xhr.status)){
-                    console.log(xhr.responseText);
-                }
-            }
-        }
-</script>
-
+    ${imgDiv}
 </form>
 `;
 
@@ -338,12 +340,7 @@ form.on('switch(shang)', function(data){
   //console.log(data.value); //开关value值，也可以通过data.elem.value得到
   //console.log(data.othis); //得到美化后的DOM对象
 }); 
-  if(xiu_g=='xiugai'){
-    titi='修改商品';  
-    sid=jis['SID'];
-  }else{
-    titi='添加商品';
-  }
+  
 //
   
 
@@ -369,7 +366,7 @@ form.on('switch(shang)', function(data){
       var xhr =new XMLHttpRequest();
       let dat_add='insert';
       dat_add=xiu_g=='xiugai'?'update':dat_add;
-            xhr.open('get',`/goods/${dat_add}?SCON=${scon}&SNAME=${sname}&STAG=${stag}&DIAN=${dian}&REPE=${repe}&PRICE=${price}&SID=${sid}`,true);
+            xhr.open('get',`/goods/${dat_add}?SCON=${scon}&SNAME=${sname}&STAG=${stag}&DIAN=${dian}&REPE=${repe}&PRICE=${price}&SID=${sid}&URL=${imgUrl}`,true);
             xhr.send();
             xhr.onload=()=>{
               if(status.includes(xhr.status)){
@@ -386,8 +383,52 @@ form.on('switch(shang)', function(data){
         return [arr1,arr2,'商品列表','/goods'];
       });
     }
+    //弹出后触发的回调
+    ,success: function(layero, index){
+      if(xiu_g=='xiugai')
+        return;
+      let imgupload=document.querySelector('#imgupload');
+        let btn=document.querySelector('.imgbtn');
+        let imgt=document.querySelector('.imgDom');
+
+        imgupload.onchange=()=>{
+            var reader = new FileReader();
+            //将图片读取为 DataURL
+            reader.readAsDataURL(imgupload.files[0]);
+            reader.onload=function(e){
+                imgt.src = e.target.result;
+            }
+        }
+
+        btn.onclick=()=>{
+            console.log(imgupload.files[0]);
+            let formData=new FormData();
+            
+            formData.append('imgupload',imgupload.files[0]);
+            formData.append('imgid','1');
+            console.log(formData);
+            var xhr = new XMLHttpRequest();
+            var status= [200,304]
+            xhr.open('post','/goods/upload',true);
+            xhr.send(formData);
+            xhr.onload=()=>{
+                if(status.includes(xhr.status)){
+                    let arr=JSON.parse(xhr.responseText);
+                    
+                    let code=arr.code;
+                    if(code==1){
+                      imgUrl=arr.data.path;
+                      btn.classList.add('layui-disabled');
+                      btn.innerHTML='图片已选择'
+                    } 
+                    console.log(imgUrl);
+                }
+            }
+        }
+    }
 
   });
+
 //console.log(jis['SNAME'])
  if(xiu_g=='xiugai'){
   form.val("username1", {
@@ -413,6 +454,7 @@ var userFun={};
 layui.use(['userlist'],function(user){ 
   userFun.fun=user().userFun;
   userFun.goodFen=user().userFun2;
+
 });
 
 

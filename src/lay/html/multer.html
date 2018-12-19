@@ -8,10 +8,21 @@
 </head>
 <body>
     <input type="file" name="imgupload" id="imgupload" />
-    <button class="btn">上传图片</button>
+    <button class="imgbtn">上传图片</button>
+    <img src="" class="imgDom"/>
     <script>
         let imgupload=document.querySelector('#imgupload');
         let btn=document.querySelector('.btn');
+        let imgt=document.querySelector('.imgDom');
+
+        imgupload.onchange=()=>{
+            var reader = new FileReader();
+            //将图片读取为 DataURL
+            reader.readAsDataURL(imgupload.files[0]);
+            reader.onload=function(e){
+                imgt.src = e.target.result;
+            }
+        }
 
         btn.onclick=()=>{
             console.log(imgupload.files[0]);

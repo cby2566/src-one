@@ -97,9 +97,9 @@ Router.get('/updown',async(req,res)=>{
 
 //添加商品
 Router.get('/insert',async (res,req)=>{
-    let {STAG,SNAME,SCON,PRICE,DIAN,REPE}=res.query;
+    let {STAG,SNAME,SCON,PRICE,DIAN,REPE,URL}=res.query;
     console.log(STAG,SNAME,SCON,PRICE,DIAN,REPE)
-    let sql=`INSERT into ulist (STAG,SNAME,SCON,PRICE,DIAN,REPE) VALUES ('${STAG}','${SNAME}','${SCON}','${PRICE}','${DIAN}',${REPE})`;
+    let sql=`INSERT into ulist (STAG,SNAME,SCON,PRICE,DIAN,URL,REPE) VALUES ('${STAG}','${SNAME}','${SCON}','${PRICE}','${DIAN}','${URL}',${REPE})`;
     let data = await _sql.query(sql);
     req.send(data);
 });
