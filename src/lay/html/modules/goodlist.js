@@ -3,6 +3,8 @@ layui.define(['table','element','form'],function(exports){
     //商品列表渲染
     let element = layui.element;
     
+    var mt1=document.querySelector('#tile1');
+    var mt2=document.querySelector('#tile2');
 
     element.init(); //更新全部  2.1.6 可用 element.render() 方法替代
     element.render('nav');
@@ -21,8 +23,10 @@ layui.define(['table','element','form'],function(exports){
 		//渲染表格封装方法
     let title='商品列表';
     let url ='/goods';
-    document.querySelector('#tile1').innerText='商品管理';
-    document.querySelector('#tile2 cite').innerText='商品列表';
+    mt1.innerText='商品管理';
+    mt2.innerText=title;
+    // document.querySelector('#tile1').innerText='商品管理';
+    // document.querySelector('#tile2').innerText='商品列表';
     
     arr1=['ID','商品名称','分类','价格（原价）','价格（现价）','库存','状态','加入时间'];
     arr2=['SID','SNAME','STAG','PRICE','PRICE','REPE','DIAN','joinTime'];
@@ -32,26 +36,28 @@ layui.define(['table','element','form'],function(exports){
 
     }
     if(this.dataset.id==2){
-      document.querySelector('#tile1').innerText='商品管理';
-      document.querySelector('#tile2').innerText='商品分类';
+      
+
       arr1=['ID','商品分类'];
       arr2=['qid','qname'];
       let title=arr1[1];
       let url ='/goods/classify';
 
+      mt1.innerText='商品管理';
+      mt2.innerText=title;
       tableRender(table,form,function(){
         return [arr1,arr2,title,url];
       });
     }
 
     if(this.dataset.id==3){
-      document.querySelector('#tile1').innerText='用户管理';
-      document.querySelector('#tile2').innerText='用户列表';
+
       arr1=['ID','用户名','加入时间'];
       arr2=['fid','fname','joi'];
       let title='用户列表';
       let url ='/user';
-
+      mt1.innerText='用户管理';
+      mt2.innerText=title;
       tableRender(table,form,function(){
         return [arr1,arr2,title,url];
       });
@@ -102,17 +108,24 @@ layui.define(['table','element','form'],function(exports){
     //拼接表头
     arr3.push({type:'checkbox',fixed: 'left'});
     for(let i=0;i<arr1.length;i++){
-     let item={field:arr2[i],title:arr1[i]};
+      let item='';
+      if(arr2[i]=='REPE'){
+        item={field:arr2[i],title:arr1[i],sort: true};
+      }else{
+        item={field:arr2[i],title:arr1[i]};
+      }
+     
      arr3.push(item);
     }
     arr3.push({fixed: 'right', title:'操作', toolbar: '#barDemo', width:200});
     arr4.push(arr3);
     //拼接表头按键组
     let TaB=`<div class="layui-btn-container" lay-filter="addi">
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
 			       ${add_item}
+             <div class="layui-input-inline">
+              <input type="text" required lay-verify="required" placeholder="请输入搜索内容" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn">搜索</button>
           </div>`;
   
     let clo={elem: '#test',
