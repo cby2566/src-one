@@ -11,7 +11,7 @@ Router.get('/',async(req,res)=>{
 
     let data = await _sql.query(sql);
     let data3 = await _sql.query(sql2);
-    console.log(data3)
+    //console.log(data3)
         
     let data2={
         "code": 0,

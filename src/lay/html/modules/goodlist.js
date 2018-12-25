@@ -2,7 +2,7 @@
 layui.define(['table','element','form'],function(exports){
     //商品列表渲染
     let element = layui.element;
-    
+    let carcar=true;
     var mt1=document.querySelector('#tile1');
     var mt2=document.querySelector('#tile2');
 
@@ -14,6 +14,15 @@ layui.define(['table','element','form'],function(exports){
     //tableRender(table,form);
     element.on('nav()', function(elem){
     
+    let catcar = document.querySelector('#carc');
+    try{
+      catcar.style.display='none';
+    }catch(err){
+      let catcar2 = document.querySelector('#carc2');
+      catcar2.style.display='none';
+    }
+    
+
     table = layui.table;
     var form = layui.form;
     console.log(this.dataset.id)
@@ -64,10 +73,16 @@ layui.define(['table','element','form'],function(exports){
     }
 
     if (this.dataset.id==4) {
+      //清空表格
+      
+      table.render({
+        elem: '#test'
+        ,cols: [{}]
+      });
 
-      var xhr =new XMLHttpRequest();
-      xhr.open('get',`/car`,true);
-      xhr.send();
+      //console.log(document.querySelector('#carc'));
+      userFun.car1(catcar,this);
+
     }
 
 
@@ -464,10 +479,10 @@ var arr1='';
 var arr2='';
 var userFun={};
 //引入外部模块
-layui.use(['userlist'],function(user){ 
+layui.use(['userlist','carcar'],function(user,car){ 
   userFun.fun=user().userFun;
   userFun.goodFen=user().userFun2;
-
+  userFun.car1=car().car;
 });
 
 

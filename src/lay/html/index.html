@@ -3,6 +3,19 @@
     <head>
         <meta charset="utf-8">
         <meta name="renderer" content="webkit">
+        <style type="text/css">
+            #k5 td{
+              width: 70px;
+              height:20px;
+              padding: 0px 0px 0px 15px;
+            }
+            #k6>span,#k6>b{
+              display: inline-block;
+              width: 70px;
+              height:20px;
+              padding: 0px 0px 0px 15px;
+            }
+        </style>
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
       <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
@@ -85,6 +98,31 @@
         </span>
 
         <table class="layui-hide" id="test"></table>
+        <script src="../../js/vue.js"></script>
+
+        <div id="carc" style="display:none">
+          <!-- <span>{{data2}}</span> -->
+          <div id='k6'>
+            <input type="checkbox" type="checkbox" v-model="ckeckall"/><b>all</b>
+            <span>商品ID</span>
+            <span>用户ID</span>
+            <span>商品数量</span>
+            <span>订单ID</span>
+            <table v-for="(v,i) in data2" border="1px" cellspacing="0" cellpadding="0" id='k5'>
+                <tr >
+                  <td><input type="checkbox" v-model="selected" v-bind:value="i"/></td>
+                  <td>{{v['sid']}}</td>
+                  <td>{{v['fid']}}</td>
+                   <td>{{v['sum']}}</td>
+                  <td>{{v['cid']}}</td>
+                </tr>
+            </table>
+          </div>
+        </div>
+
+        
+
+
         
          
         <script type="text/html" id="barDemo">
